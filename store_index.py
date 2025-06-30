@@ -1,9 +1,9 @@
-from src.helper import load_pdf_file,text_split,download_hugging_face_embeddings
-from pinecone.grpc import PineconeGRPC as Pinecone
+from src.helper import load_pdf_file, text_split, download_hugging_face_embeddings
+from pinecone import Pinecone, ServerlessSpec
+from langchain_community.vectorstores import Pinecone as PineconeVectorStore
 from dotenv import load_dotenv
-from pinecone import ServerlessSpec
-from langchain_pinecone import PineconeVectorStore
 import os
+
 
 load_dotenv()
 
@@ -36,7 +36,7 @@ if index_name not in [index.name for index in pc.list_indexes()]:
     
 
 
-from langchain_pinecone import PineconeVectorStore
+
 docsearch=PineconeVectorStore.from_documents(
     documents=texts,
     index_name=index_name,
