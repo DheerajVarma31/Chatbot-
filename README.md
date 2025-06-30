@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Chatbot-
 
 ### Steps:
@@ -27,3 +28,6 @@ PINECONE_API_KEY="pcsk_4UboeU_JB8iqzdQjRuW8aDhH8CSRTaPkjcnLqbHZypRLx3mLoF46QUkqF
 Pinecone Env is created using function
 
 Download the quantized model of Llama2
+=======
+# Chatbot-
+>>>>>>> 0604878663b3744b48119ab331abe9a2ea455c83
