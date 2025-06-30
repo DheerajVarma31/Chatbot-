@@ -13,8 +13,9 @@ list_of_files = [
     "research/trials.ipynb",
     "app.py",
     "store_index.py",
-    "static",
-    "templates/chat.html"
+    "static/.gitkeep",
+    "templates/chat.html",
+    "test.py"
     ]
 
 for filepath in list_of_files:
