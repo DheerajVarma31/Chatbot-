@@ -205,9 +205,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-<<<<<<< HEAD
 
-model\llama-2-7b-chat.ggmlv3.q4_0.bin"*.bin" 
+model/llama-2-7b-chat.ggmlv3.q4_0.bin 
  
-=======
->>>>>>> 0604878663b3744b48119ab331abe9a2ea455c83
+
