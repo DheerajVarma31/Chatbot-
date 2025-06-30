@@ -1,46 +1,45 @@
 from src.helper import load_pdf_file, text_split, download_hugging_face_embeddings
-from pinecone import Pinecone, ServerlessSpec
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+from pinecone import Pinecone, ServerlessSpec
+from langchain_community.vectorstores import Pinecone as LangchainPinecone
 
+# Custom helpers
+from src.helper import load_pdf_file, text_split, download_hugging_face_embeddings
 
+# Load .env variables
 load_dotenv()
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 
-PINECONE_API_KEY=os.environ.get("PINECONE_API_KEY")
+# Step 1: Load and process PDF data
+extracted_data = load_pdf_file(data='data/')     # Your custom PDF loader
+texts = text_split(extracted_data)               # Chunking the text
+embeddings = download_hugging_face_embeddings()  # Embedding model
 
-#print(PINECONE_API_KEY)
-extracted_data=load_pdf_file(data='C:/Users/dheer/Chatbot-/data/')
-texts=text_split(extracted_data)
-embeddings=download_hugging_face_embeddings()
-
-
-
-
-# Initialize Pinecone client
-pc = Pinecone(api_key="pcsk_4UboeU_JB8iqzdQjRuW8aDhH8CSRTaPkjcnLqbHZypRLx3mLoF46QUkqFUMgTqAtACxxxA")
+# Step 2: Initialize Pinecone client (v3+)
+pc = Pinecone(api_key=PINECONE_API_KEY)
 
 index_name = "testbot"
 
-# ✅ Check if index already exists
+# Step 3: Create index if it doesn't exist
 if index_name not in [index.name for index in pc.list_indexes()]:
     pc.create_index(
         name=index_name,
-        dimension=384,
+        dimension=384,  # Depends on your embedding model
         metric="cosine",
         spec=ServerlessSpec(
             cloud="aws",
             region="us-east-1"
         )
     )
-    
 
-
-
-docsearch=PineconeVectorStore.from_documents(
+# Step 4: Upload vectors to Pinecone using LangChain wrapper
+docsearch = LangchainPinecone.from_documents(
     documents=texts,
-    index_name=index_name,
     embedding=embeddings,
+    index_name=index_name,
+    pinecone_api_key=PINECONE_API_KEY
 )
 
+print("✅ Documents successfully embedded and uploaded to Pinecone.")
 
