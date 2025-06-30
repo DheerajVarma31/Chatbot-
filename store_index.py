@@ -2,7 +2,13 @@ from src.helper import load_pdf_file, text_split, download_hugging_face_embeddin
 import os
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
-from langchain_community.vectorstores import Pinecone as LangchainPinecone
+from pinecone import (
+    Pinecone,
+    ServerlessSpec,
+    CloudProvider,
+    AwsRegion,
+    VectorType
+)
 
 # Custom helpers
 from src.helper import load_pdf_file, text_split, download_hugging_face_embeddings
@@ -34,7 +40,7 @@ if index_name not in [index.name for index in pc.list_indexes()]:
     )
 
 # Step 4: Upload vectors to Pinecone using LangChain wrapper
-docsearch = LangchainPinecone.from_documents(
+docsearch = Pinecone.from_documents(
     documents=texts,
     embedding=embeddings,
     index_name=index_name,
